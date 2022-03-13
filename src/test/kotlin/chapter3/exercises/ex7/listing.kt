@@ -23,10 +23,11 @@ val trace = {
 
 fun main() {
     // tag::init[]
-    foldRight(
+    val a = foldRight(
         Cons(1, Cons(2, Cons(3, Nil))),
         Nil as List<Int>,
         { x, y -> Cons(x, y) }
     )
+    println(a)
     // end::init[]
 }

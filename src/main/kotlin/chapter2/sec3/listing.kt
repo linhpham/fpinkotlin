@@ -2,7 +2,7 @@ package chapter2.sec3
 
 val listing1 = {
     //tag::init1[]
-    fun <A, B, C> partial1(a: A, f: (A, B) -> C): (B) -> C = TODO()
+    fun <A, B, C> partial1(a: A, f: (A, B) -> C): (B) -> C = { b: B -> f(a,b) }
     //end::init1[]
 }
 

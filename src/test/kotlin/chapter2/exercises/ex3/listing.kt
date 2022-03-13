@@ -8,13 +8,12 @@ import utils.SOLUTION_HERE
 class Exercise3 : WordSpec({
     // tag::init[]
     fun <A, B, C> curry(f: (A, B) -> C): (A) -> (B) -> C =
-
-        SOLUTION_HERE()
+        { a: A -> { b: B -> f(a,b) } }
     // end::init[]
 
     "curry" should {
-        """!break down a function that takes multiple arguments into
-            a series of functions that each take only oneargument""" {
+        """break down a function that takes multiple arguments into
+            a series of functions that each take only one argument""" {
 
             val f: (Int) -> (Int) -> String =
                 curry { a: Int, b: Int -> "$a:$b" }
@@ -22,6 +21,10 @@ class Exercise3 : WordSpec({
             val z = f(1)(3)
             y shouldBe "1:2"
             z shouldBe "1:3"
+
+            val k = f(1)
+            val h = k(2)
+            h shouldBe "1:2"
         }
     }
 })

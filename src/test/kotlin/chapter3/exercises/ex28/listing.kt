@@ -9,24 +9,29 @@ import utils.SOLUTION_HERE
 
 // tag::init[]
 fun <A, B> fold(ta: Tree<A>, l: (A) -> B, b: (B, B) -> B): B =
-
-    SOLUTION_HERE()
+    when (ta) {
+        is Leaf -> l(ta.value)
+        is Branch -> {
+            val left = fold(ta.left, l, b)
+            val right = fold(ta.right, l, b)
+            b(left, right)
+        }
+    }
 
 fun <A> sizeF(ta: Tree<A>): Int =
+    fold(ta, {_ -> 1 }, { left, right -> 1 + left + right } )
 
-    SOLUTION_HERE()
 
 fun maximumF(ta: Tree<Int>): Int =
+    fold(ta, { leaf -> leaf }, { left, right -> maxOf(left, right) } )
 
-    SOLUTION_HERE()
 
 fun <A> depthF(ta: Tree<A>): Int =
-
-    SOLUTION_HERE()
+    fold(ta, { _ -> 0 }, { left, right -> 1 + maxOf(left, right) } )
 
 fun <A, B> mapF(ta: Tree<A>, f: (A) -> B): Tree<B> =
+    fold(ta, { leaf -> Leaf(f(leaf)) }, { left: Tree<B>, right: Tree<B> -> Branch(left, right) })
 
-    SOLUTION_HERE()
 // end::init[]
 
 //TODO: Enable tests by removing `!` prefix
@@ -46,19 +51,19 @@ class Exercise28 : WordSpec({
                 )
             )
         )
-        "!generalise size" {
+        "generalise size" {
             sizeF(tree) shouldBe 15
         }
 
-        "!generalise maximum" {
+        "generalise maximum" {
             maximumF(tree) shouldBe 21
         }
 
-        "!generalise depth" {
+        "generalise depth" {
             depthF(tree) shouldBe 5
         }
 
-        "!generalise map" {
+        "generalise map" {
             mapF(tree) { it * 10 } shouldBe
                 Branch(
                     Branch(Leaf(10), Leaf(20)),
